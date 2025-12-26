@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tactical Shooter: SMART AI</title>
+    <title>Tactical Shooter: NEW YEAR 2026</title>
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
     <style>
         body {
@@ -1243,8 +1243,17 @@
             } else {
                 if ((currentMissionId===3||currentMissionId===15||currentMissionId===18) && !bossSpawned && gameTime>1) { spawnEnemyEdge('boss'); if(currentMissionId===15)spawnEnemyEdge('boss'); bossSpawned=true; } 
                 
-                let sr=120; if([3,9,10,13,14,15].includes(currentMissionId)) sr=180; if([4,6,8,11,16,17,18,19].includes(currentMissionId)) sr=60; 
+                let sr=120; 
+                if([3,9,10,13,14,15].includes(currentMissionId)) sr=180; 
+                // Removed 19 from fast list
+                if([4,6,8,11,16,17,18].includes(currentMissionId)) sr=60; 
+                // NEW: Slow rate for Smart AI
+                if(currentMissionId===19) sr=220; 
+
                 if (Math.floor(gameTime*60)%sr===0) {
+                    // NEW: Cap smart enemies to 3 max
+                    if(currentMissionId===19 && enemies.length >= 3) return;
+
                     let type = 'standard';
                     if(Math.random() < 0.2) type = 'artifact_carrier';
                     if(currentMissionId===16) type = 'tank';
